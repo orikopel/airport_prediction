@@ -44,7 +44,7 @@ def load_traffic_data(traffic_path, airport_designator, start_date, end_date):
 
     return traffic_data
 
-def plot_pred(forecast, pred_data, date_to_predict, predicted_value):
+def plot_pred(forecast, pred_data, date_to_predict, predicted_value, plot_title):
     """
     Plot the predicted traffic data.
 
@@ -59,8 +59,8 @@ def plot_pred(forecast, pred_data, date_to_predict, predicted_value):
     """
 
     # visualize the prediction
-    fig = px.line(forecast, x="ds", y="yhat", title="Traffic Prediction")
-    fig.add_scatter(x=pred_data["ds"], y=pred_data["y"], mode="markers", name="Actual Traffic", marker=dict(color="black", size=5))
+    fig = px.line(forecast, x="ds", y="yhat", title=plot_title)
+    fig.add_scatter(x=pred_data["ds"], y=pred_data["y"], mode="markers", name="Actual Traffic", marker=dict(color="gray", size=5))
     fig.add_scatter(x=[date_to_predict], y=[predicted_value], mode="markers", marker=dict(color="green", size=10), name="Predicted Traffic")
     fig.add_annotation(x=date_to_predict, y=predicted_value,
                       text="Predicted Traffic",
@@ -80,7 +80,7 @@ def plot_pred(forecast, pred_data, date_to_predict, predicted_value):
                       )
     return fig
 
-def predict_traffic(data, date_to_predict):
+def predict_traffic(data, date_to_predict, plot_title):
     """
     Use Prophet to predict traffic data for a specific airport and date.
 
@@ -93,37 +93,30 @@ def predict_traffic(data, date_to_predict):
         plot: The plot of the predicted traffic data.
     """
 
-    try:
-        # filter to get dataset for prediction
-        pred_data = data[["date_of_flight", "traffic"]].copy()
-        pred_data.columns = ["ds", "y"]
-        pred_data = pred_data.dropna()
+    # try:
+    # filter to get dataset for prediction
+    pred_data = data[["date_of_flight", "traffic"]].copy()
+    pred_data.columns = ["ds", "y"]
+    pred_data = pred_data.dropna()
 
-        # set and train model
-        model = Prophet(daily_seasonality=False)
-        model.fit(pred_data)
+    # set and train model
+    model = Prophet(daily_seasonality=False)
+    model.fit(pred_data)
 
-        # date to predict
-        date_to_predict = datetime.strptime(date_to_predict, "%Y-%m-%d")
+    # define date range for prediction results
+    start_date = pred_data["ds"].min()
+    #start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+    start_date = pd.to_datetime(start_date, format='%Y-%m-%d')
+    date_to_predict = pd.to_datetime(date_to_predict, format='%Y-%m-%d')
 
-        # define date range for prediction results
-        start_date = "2024-12-31"
-        start_date = datetime.strptime(start_date, "%Y-%m-%d")
-        td = date_to_predict - start_date
-        future = model.make_future_dataframe(periods=td.days, freq='D')
+    td = date_to_predict - start_date
+    future = model.make_future_dataframe(periods=td.days, freq='D')
 
-        # prediction
-        future = future[(future['ds'] >= start_date) & (future['ds'] <= date_to_predict)]
-        forecast = model.predict(future)
-        predicted_value = forecast[forecast['ds'] == date_to_predict]['yhat'].values[0]
+    # prediction
+    future = future[(future['ds'] >= start_date) & (future['ds'] <= date_to_predict)]
+    forecast = model.predict(future)
+    predicted_value = forecast[forecast['ds'] == date_to_predict]['yhat'].values[0]
 
-        fig = plot_pred(forecast, pred_data, date_to_predict, predicted_value)
+    fig = plot_pred(forecast, pred_data, date_to_predict, predicted_value, plot_title)
 
-        return predicted_value, fig
-
-    except RuntimeError as e:
-        print(f"Prophet fitting failed: {e}")
-        return None, None # Important: Return None, None if there's an error
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return None, None
+    return predicted_value, fig
