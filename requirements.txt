@@ -139,3 +139,4 @@ xyzservices==2025.1.0
 torch==2.5.1
 geopandas
 kaleido
+prophet
