@@ -23,7 +23,17 @@ end_date = datetime(2024, 12, 31)
 
 # Set up the Streamlit app
 st.set_page_config(layout="wide")
-st.title("Flight Information Dashboard")
+st.title("Airport Traffic & Delay Prediction")
+
+# Initialize session state attributes
+if 'm' not in state:
+    state.m = None
+if 'plot1' not in state:
+    state.plot1 = None
+if 'plot2' not in state:
+    state.plot2 = None
+if 'data_loaded' not in state:
+    state.data_loaded = False
 
 # User input
 col1, col2, col3 = st.columns(3)
@@ -34,13 +44,8 @@ with col2:
 with col3:
     flight_date = st.date_input("Select Flight Date", value=datetime.now().date())
 
-# data not loaded
-if 'data_loaded' not in state:
-    state.data_loaded = False
-
 # run predictions and generate visuals
-if st.button("Load Flight Information") or state.data_loaded:
-    state.data_loaded = True
+if st.button("Load Flight Information"):
 
     # load traffic data for prediction
     airport_data1 = load_traffic_data(traffic_path, airport_a, start_date, end_date)
@@ -62,25 +67,28 @@ if st.button("Load Flight Information") or state.data_loaded:
 
     # create locations df for map
     locations_df = pd.DataFrame({"geo":[loc1, loc2], "name":[name1, name2], "traffic":[pred1, pred2]})
-
-    # create map
-    m = make_map(locations_df)
+    state.locdf = locations_df
 
     # store visuals
-    state.m = m
     state.plot1 = plot1
     state.plot2 = plot2
+    state.data_loaded = True
 
 # Display the results outside the button click logic
-if state.data_loaded:
+if state.get('data_loaded', True):
     col1, col2 = st.columns([3, 2])
     with col1:
         # Display the Folium map
         st.subheader("Flight Route Map")
-        st_folium(state.m, width=900, height=900)
+        if state.locdf is not None:
+            st.write("Map is available")
+            m = make_map(state.locdf)
+            st_folium(m, width=900, height=900)
+        else:
+            st.write("Map is not available")
     with col2:
         st.subheader("Traffic Prediction")
         st.plotly_chart(state.plot1, use_container_width=True)
         st.plotly_chart(state.plot2, use_container_width=True)
-    
+
     

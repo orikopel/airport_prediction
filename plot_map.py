@@ -86,7 +86,7 @@ def make_map(locations_df):
     # Create a map centered on the midpoint of the line
     point1, point2 = locations_df["geo"].tolist()
     midpoint = [(point1[1] + point2[1]) / 2, (point1[0] + point2[0]) / 2]
-    m = folium.Map(location=midpoint, zoom_start=3, tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr='Esri')
+    m = folium.Map(location=midpoint, zoom_start=5, tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr='Esri')
 
     # Add the line to the map
     folium.GeoJson(line).add_to(m)
