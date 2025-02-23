@@ -13,8 +13,8 @@ from predict_traffic import predict_traffic, load_traffic_data
 # Load Data #
 
 airport_details = pd.read_csv("airports.csv")
-airport_names = airport_details["name"].tolist()
-airport_codes = airport_details["icao"].tolist()
+airport_names = airport_details["name"].astype(str).tolist()
+airport_codes = airport_details["icao"].astype(str).tolist()
 airport_options = [" - ".join(x) for x in zip(airport_names, airport_codes)]
 
 traffic_path = 'traffic_data.csv'
