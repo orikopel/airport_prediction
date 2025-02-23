@@ -13,6 +13,8 @@ from predict_traffic import predict_traffic, load_traffic_data
 # Load Data #
 
 airport_details = pd.read_csv("airports.csv")
+airport_names = airport_details["name"].tolist()
+
 traffic_path = 'traffic_data.csv'
 
 start_date = datetime(2016, 1, 1)
@@ -38,9 +40,13 @@ if 'data_loaded' not in state:
 # User input
 col1, col2, col3 = st.columns(3)
 with col1:
-    airport_a = st.text_input("Enter Airport A code")
+    airport_a_name = st.selectbox("Select Airport A code", airport_names)
+    airport_a = airport_details[airport_details["name"]==airport_a_name]["icao"].tolist()[0]
+
 with col2:
-    airport_b = st.text_input("Enter Airport B code")
+    airport_b_name = st.selectbox("Select Airport B code", airport_names)
+    airport_b = airport_details[airport_details["name"]==airport_b_name]["icao"].tolist()[0]
+    
 with col3:
     flight_date = st.date_input("Select Flight Date", value=datetime.now().date())
 
