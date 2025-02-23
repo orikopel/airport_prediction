@@ -138,3 +138,4 @@ websocket-client==1.8.0
 xyzservices==2025.1.0
 torch==2.5.1
 geopandas
+kaleido
