@@ -20,7 +20,7 @@ This Streamlit application predicts future airport traffic using Facebook's Prop
 ## Installation
 Clone the repository:
 
-git clone https://github.com/orikopel/airport-prediction.git
+git clone https://github.com/orikopel/airport_prediction.git
 cd airport-prediction
 Create a virtual environment (optional but recommended):
 
