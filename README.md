@@ -18,14 +18,14 @@ This Streamlit application predicts future airport traffic using Facebook's Prop
 * plot_map.py: Handles the creation and rendering of the map visualization
 
 ## Installation
-Clone the repository:
 
+#### Clone the repository:
 * git clone https://github.com/orikopel/airport_prediction.git
 * cd airport-prediction
 * Create a virtual environment (optional but recommended):
-
 * python -m venv venv
 * source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+  
 #### Install the required packages:
 * pip install -r requirements.txt
 
