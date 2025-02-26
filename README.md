@@ -20,19 +20,19 @@ This Streamlit application predicts future airport traffic using Facebook's Prop
 ## Installation
 Clone the repository:
 
-git clone https://github.com/orikopel/airport_prediction.git
-cd airport-prediction
-Create a virtual environment (optional but recommended):
+* git clone https://github.com/orikopel/airport_prediction.git
+* cd airport-prediction
+* Create a virtual environment (optional but recommended):
 
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-Install the required packages:
-pip install -r requirements.txt
+* python -m venv venv
+* source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+#### Install the required packages:
+* pip install -r requirements.txt
 
 ## Usage
-To run the Streamlit app:
-streamlit run app.py
-Navigate to the provided local URL in your web browser to interact with the application.
+#### To run the Streamlit app:
+* streamlit run app.py
+* Navigate to the provided local URL in your web browser to interact with the application.
 
 ## How It Works
 * Data Input: Users can select an airport from the provided list.
@@ -67,4 +67,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Contact
 Ori Kopelovich - orikopel@gmail.com
 
-Project Link: https://github.com/orikopel/airport-prediction
+Project Link: https://github.com/orikopel/airport_prediction
