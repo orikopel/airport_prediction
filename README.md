@@ -3,6 +3,8 @@
 ## Overview
 This Streamlit application predicts future airport traffic using Facebook's Prophet library and provides interactive visualizations including a map view and forecast charts. The app is designed to help airport managers, analysts, and planners make data-driven decisions based on projected passenger traffic.
 
+![image](https://github.com/user-attachments/assets/1d4a370e-1461-400f-b3da-1a3fe8c11403)
+
 ## Features
 * Interactive map visualization of airports
 * Time series forecasting of airport traffic using Prophet
@@ -58,9 +60,9 @@ Contributions to improve the app are welcome. Please follow these steps:
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
-Facebook's Prophet library for time series forecasting
-Streamlit for the interactive web application framework
-ESRI for map data
+* Facebook's Prophet library for time series forecasting
+* Streamlit for the interactive web application framework
+* ESRI for map data
 
 ## Contact
 Ori Kopelovich - orikopel@gmail.com
